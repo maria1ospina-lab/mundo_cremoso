@@ -1,0 +1,688 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #fff8f3;
+  color: #3b2a25;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+
+/* =========================
+   ENCABEZADO
+========================= */
+
+.encabezado {
+  background-color: #f7b6c8;
+  padding: 30px;
+  text-align: center;
+}
+
+.encabezado h1 {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.encabezado p {
+  font-size: 16px;
+}
+
+
+/* =========================
+   INICIO
+========================= */
+
+.contenido {
+  max-width: 850px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.saludo {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.saludo h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.saludo p {
+  color: #76615a;
+}
+
+
+/* =========================
+   MENU
+========================= */
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.menu-card {
+  min-height: 190px;
+  border: none;
+  border-radius: 20px;
+  padding: 25px;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-color: white;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  transition: 0.2s;
+}
+
+.menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.icono {
+  font-size: 50px;
+  margin-bottom: 12px;
+}
+
+.titulo-card {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.descripcion {
+  color: #76615a;
+  font-size: 14px;
+  text-align: center;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #8b756d;
+}
+
+
+/* =========================
+   PANTALLAS
+========================= */
+
+.pantalla {
+  max-width: 700px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+.btn-volver {
+  border: none;
+  background: none;
+  color: #7c4a5a;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+
+.titulo-pantalla {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.titulo-pantalla > span {
+  font-size: 45px;
+}
+
+.titulo-pantalla h2 {
+  font-size: 30px;
+  margin-bottom: 5px;
+}
+
+.titulo-pantalla p {
+  color: #76615a;
+}
+
+
+/* =========================
+   FORMULARIOS
+========================= */
+
+.formulario {
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.formulario label {
+  display: block;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.formulario label:first-child {
+  margin-top: 0;
+}
+
+.formulario input,
+.formulario select {
+  width: 100%;
+  padding: 15px;
+
+  border: 2px solid #eadde0;
+  border-radius: 12px;
+
+  font-size: 16px;
+  outline: none;
+}
+
+.formulario input:focus,
+.formulario select:focus {
+  border-color: #e89ab2;
+}
+
+
+/* =========================
+   BOTON PRINCIPAL
+========================= */
+
+.btn-principal {
+  width: 100%;
+  margin-top: 25px;
+  padding: 16px;
+
+  border: none;
+  border-radius: 12px;
+
+  background-color: #e89ab2;
+  color: white;
+
+  font-size: 17px;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.btn-principal:hover {
+  background-color: #d9829d;
+}
+
+
+/* =========================
+   VENTA - PRECIO
+========================= */
+
+.precio-automatico,
+.total-venta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 18px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.precio-automatico {
+  background-color: #f8f2f4;
+}
+
+.total-venta {
+  background-color: #ffe1ec;
+  font-size: 18px;
+}
+
+.total-venta strong {
+  font-size: 24px;
+}
+
+
+/* =========================
+   SABORES DE PRODUCCIÓN
+========================= */
+
+.sabores-produccion {
+  margin-top: 15px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.sabor-opcion {
+  display: grid;
+  grid-template-columns: 30px 1fr 120px;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 14px;
+
+  background-color: #fff8fb;
+
+  border: 1px solid #eadde0;
+  border-radius: 12px;
+
+  cursor: pointer;
+}
+
+.sabor-opcion input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+
+  cursor: pointer;
+}
+
+.sabor-opcion span {
+  font-weight: 500;
+}
+
+.sabor-opcion .cantidad-sabor {
+  width: 100%;
+
+  padding: 10px;
+
+  border: 1px solid #eadde0;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+}
+
+
+/* =========================
+   SABORES DE VENTA
+========================= */
+
+.sabores-venta {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+
+  margin-top: 15px;
+}
+
+.sabor-venta {
+  display: grid;
+
+  grid-template-columns: 1fr 120px;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 14px;
+
+  background-color: #fff8fb;
+
+  border: 1px solid #eadde0;
+
+  border-radius: 12px;
+}
+
+
+/* NOMBRE DEL SABOR */
+
+.nombre-sabor {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  font-weight: 500;
+}
+
+.nombre-sabor input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+
+  cursor: pointer;
+}
+
+
+/* CANTIDAD DE VENTA */
+
+.cantidad-venta {
+  width: 100%;
+
+  padding: 10px !important;
+
+  border: 1px solid #eadde0 !important;
+
+  border-radius: 8px !important;
+
+  font-size: 15px !important;
+}
+
+.cantidad-venta:disabled {
+  background-color: #eeeeee;
+
+  cursor: not-allowed;
+}
+
+
+/* =========================
+   RESUMEN DE VENTA
+========================= */
+
+.resumen-venta {
+  margin-top: 25px;
+
+  background-color: #f8f2f4;
+
+  border-radius: 15px;
+
+  overflow: hidden;
+}
+
+.resumen-venta > div {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 15px 18px;
+
+  border-bottom: 1px solid #eadde0;
+}
+
+.resumen-venta > div:last-child {
+  border-bottom: none;
+}
+
+.resumen-venta span {
+  color: #76615a;
+}
+
+.resumen-venta strong {
+  font-size: 18px;
+}
+
+
+/* TOTAL FINAL */
+
+.resumen-venta .total-final {
+  background-color: #ffe1ec;
+}
+
+.resumen-venta .total-final span {
+  color: #3b2a25;
+
+  font-weight: bold;
+}
+
+.resumen-venta .total-final strong {
+  font-size: 25px;
+}
+
+
+/* =========================
+   INVENTARIO
+========================= */
+
+.inventario-lista {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.helado {
+  background-color: white;
+
+  padding: 18px 20px;
+
+  border-radius: 14px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.helado strong {
+  background-color: #f7b6c8;
+
+  padding: 8px 14px;
+
+  border-radius: 10px;
+}
+
+.total-inventario {
+  margin-top: 20px;
+
+  background-color: #ddf5df;
+
+  padding: 20px;
+
+  border-radius: 15px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  font-size: 20px;
+
+  font-weight: bold;
+}
+
+
+/* =========================
+   RESUMEN
+========================= */
+
+.resumen-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 15px;
+}
+
+.resumen-card {
+  background-color: white;
+
+  padding: 25px 15px;
+
+  border-radius: 18px;
+
+  text-align: center;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+}
+
+.resumen-card span {
+  font-size: 35px;
+}
+
+.resumen-card p {
+  margin: 12px 0;
+
+  color: #76615a;
+}
+
+.resumen-card strong {
+  font-size: 25px;
+}
+
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 600px) {
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-card {
+    min-height: 150px;
+  }
+
+  .resumen-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .encabezado h1 {
+    font-size: 24px;
+  }
+
+  .sabor-opcion {
+    grid-template-columns: 30px 1fr;
+  }
+
+  .sabor-opcion .cantidad-sabor {
+    grid-column: 2;
+  }
+
+  .sabor-venta {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .cantidad-venta {
+    width: 100%;
+  }
+
+
+  .deuda-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  background-color: #fff8fb;
+  border: 1px solid #eadde0;
+  border-radius: 12px;
+}
+
+.deuda-card strong {
+  font-size: 16px;
+}
+
+.deuda-card small {
+  color: #76615a;
+}
+
+.btn-secundario {
+  border: 1px solid #e89ab2;
+  background-color: #fff;
+  color: #3b2a25;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-secundario:hover {
+  background-color: #ffe1ec;
+}
+
+
+.deuda-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  background-color: #fff8fb;
+  border: 1px solid #eadde0;
+  border-radius: 12px;
+}
+
+.deuda-card strong {
+  font-size: 16px;
+}
+
+.deuda-card small {
+  color: #76615a;
+}
+
+.btn-secundario {
+  border: 1px solid #e89ab2;
+  background-color: #ffffff;
+  color: #3b2a25;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-secundario:hover {
+  background-color: #ffe1ec;
+}
+
+.reporte {
+  width: 100%;
+}
+
+.reporte-encabezado {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.reporte-encabezado h2 {
+  margin-bottom: 8px;
+}
+
+.reporte-encabezado h3 {
+  color: #76615a;
+  font-weight: 500;
+}
+
+@media print {
+  body {
+    background-color: white;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .pantalla {
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .reporte {
+    width: 100%;
+  }
+
+  .resumen-card {
+    break-inside: avoid;
+  }
+}
+
+}
