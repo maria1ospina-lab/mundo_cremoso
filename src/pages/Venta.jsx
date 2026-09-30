@@ -7,13 +7,9 @@ function Venta({
   registrarVenta,
   sabores
 }) {
-  const [cantidades, setCantidades] =
-    useState({});
+  const [cantidades, setCantidades] = useState({});
 
-  function cambiarCantidad(
-    sabor,
-    cantidad
-  ) {
+  function cambiarCantidad(sabor, cantidad) {
     const valor =
       cantidad === ""
         ? 0
@@ -91,14 +87,6 @@ function Venta({
     if (!ventaCorrecta) {
       return;
     }
-
-    alert(
-      `Venta registrada correctamente.\n\n` +
-      `Helados vendidos: ${totalHelados}\n` +
-      `Total: $${totalVenta.toLocaleString(
-        "es-CO"
-      )}`
-    );
 
     setCantidades({});
   }
