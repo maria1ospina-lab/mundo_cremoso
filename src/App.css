@@ -685,4 +685,309 @@ footer {
   }
 }
 
+
+/* ================================
+   AJUSTES FINALES PARA CELULAR
+   ================================ */
+
+.sabor-venta {
+  margin-bottom: 18px;
+  padding: 18px;
+  border-radius: 16px;
+}
+
+.sabor-venta .nombre-sabor {
+  margin-bottom: 12px;
+}
+
+.cantidad-venta {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 4px;
+}
+
+.disponibles {
+  display: block;
+  margin-top: 7px;
+  line-height: 1.4;
+}
+
+.disponibles + .disponibles {
+  margin-top: 4px;
+}
+
+.sabor-venta > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.btn-volver {
+  margin-bottom: 28px;
+}
+
+.titulo-pantalla {
+  margin-bottom: 28px;
+}
+
+.titulo-pantalla h2 {
+  margin-bottom: 8px;
+}
+
+.titulo-pantalla p {
+  margin-top: 0;
+}
+
+.formulario {
+  margin-top: 10px;
+}
+
+.resumen-venta {
+  margin-top: 24px;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .pantalla {
+    padding: 20px 16px;
+  }
+
+  .btn-volver {
+    margin-bottom: 24px;
+  }
+
+  .titulo-pantalla {
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .titulo-pantalla h2 {
+    font-size: 30px;
+    line-height: 1.1;
+  }
+
+  .titulo-pantalla p {
+    font-size: 17px;
+    line-height: 1.4;
+  }
+
+  .formulario {
+    padding: 22px 18px;
+  }
+
+  .sabor-venta {
+    margin-bottom: 14px;
+    padding: 18px;
+  }
+
+  .sabor-venta .nombre-sabor span {
+    font-size: 20px;
+  }
+
+  .cantidad-venta {
+    min-height: 54px;
+    font-size: 18px;
+  }
+
+  .disponibles {
+    font-size: 15px;
+  }
+}
+
+/* =========================================
+   RESUMEN MENSUAL Y RECIBO
+   ========================================= */
+
+.resumen-mensual {
+  padding-bottom: 50px;
+}
+
+.selector-mes {
+  margin-bottom: 30px;
+}
+
+.selector-mes h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.selector-mes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.selector-mes-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.selector-mes-grid label {
+  font-weight: 600;
+}
+
+.selector-mes-grid input,
+.selector-mes-grid select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.reporte-mensual {
+  width: 100%;
+}
+
+.reporte-encabezado {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.reporte-encabezado h2 {
+  margin-bottom: 8px;
+}
+
+.reporte-encabezado h3 {
+  margin: 0 0 6px;
+  font-size: 24px;
+}
+
+.reporte-encabezado p {
+  margin: 0;
+}
+
+.utilidad-card {
+  border: 2px solid #e89ab2;
+}
+
+.recibo-mensual {
+  max-width: 520px;
+  margin: 35px auto 25px;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px dashed #9d8585;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.recibo-mensual h3 {
+  margin: 8px 0 14px;
+  letter-spacing: 1px;
+}
+
+.recibo-mensual p {
+  margin: 7px 0;
+}
+
+.recibo-linea {
+  border-top: 1px dashed #9d8585;
+  margin: 18px 0;
+}
+
+.recibo-fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 7px 0;
+  text-align: left;
+}
+
+.recibo-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 0;
+  font-size: 18px;
+}
+
+.recibo-final {
+  margin-top: 20px !important;
+  font-size: 14px;
+}
+
+.acciones-reporte {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.acciones-reporte .btn-principal {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+
+  .selector-mes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reporte-encabezado h2 {
+    font-size: 25px;
+  }
+
+  .reporte-encabezado h3 {
+    font-size: 21px;
+  }
+
+  .recibo-mensual {
+    padding: 22px 18px;
+    margin-top: 25px;
+  }
+
+  .recibo-fila {
+    font-size: 15px;
+  }
+
+  .recibo-total {
+    font-size: 16px;
+  }
+}
+
+/* =========================================
+   IMPRESIÓN DEL RECIBO
+   ========================================= */
+
+@media print {
+
+  body {
+    background: white !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .pantalla {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .reporte-mensual {
+    width: 100%;
+  }
+
+  .reporte-encabezado {
+    margin-bottom: 20px;
+  }
+
+  .resumen-grid {
+    break-inside: avoid;
+  }
+
+  .resumen-card {
+    break-inside: avoid;
+  }
+
+  .recibo-mensual {
+    max-width: 600px;
+    margin: 25px auto;
+    border: 1px dashed #555;
+  }
+
+  .acciones-reporte {
+    display: none !important;
+  }
+}
+
 }

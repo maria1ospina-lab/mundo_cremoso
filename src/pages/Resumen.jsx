@@ -2,62 +2,75 @@ import { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabaseClient";
 
 function Resumen({ cambiarPantalla }) {
-  const [resumen, setResumen] = useState({
-    helados_vendidos: 0,
-    dinero_generado: 0,
-    helados_disponibles: 0,
-    producciones: 0,
-    litros_producidos: 0
-  });
+  const ahora = new Date();
 
-  const [cargando, setCargando] =
-    useState(true);
+  const [anio, setAnio] = useState(
+    ahora.getFullYear()
+  );
 
-  useEffect(() => {
-    async function cargarResumen() {
-      const { data, error } =
-        await supabase.rpc(
-          "obtener_resumen_hoy"
-        );
+  const [mes, setMes] = useState(
+    ahora.getMonth() + 1
+  );
 
-      if (error) {
-        console.error(error);
-        setCargando(false);
-        return;
-      }
+  const [reporte, setReporte] = useState(null);
+  const [cargando, setCargando] = useState(false);
 
-      setResumen(data);
+  const meses = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre"
+  ];
+
+  async function cargarReporte() {
+    setCargando(true);
+
+    const { data, error } =
+      await supabase.rpc(
+        "obtener_reporte_mensual",
+        {
+          p_anio: Number(anio),
+          p_mes: Number(mes)
+        }
+      );
+
+    if (error) {
+      console.error(error);
+
+      alert(
+        error.message ||
+          "No se pudo cargar el resumen."
+      );
+
       setCargando(false);
+      return;
     }
 
-    cargarResumen();
+    setReporte(data);
+    setCargando(false);
+  }
+
+  useEffect(() => {
+    cargarReporte();
   }, []);
 
-  if (cargando) {
-    return (
-      <div className="pantalla">
-
-        <div className="titulo-pantalla">
-
-          <span>💰</span>
-
-          <div>
-            <h2>
-              Cargando resumen...
-            </h2>
-          </div>
-
-        </div>
-
-      </div>
-    );
+  function imprimirRecibo() {
+    window.print();
   }
 
   return (
-    <div className="pantalla">
+    <div className="pantalla resumen-mensual">
 
       <button
-        className="btn-volver"
+        className="btn-volver no-print"
         onClick={() =>
           cambiarPantalla("inicio")
         }
@@ -70,93 +83,393 @@ function Resumen({ cambiarPantalla }) {
         <span>💰</span>
 
         <div>
-
-          <h2>Resumen de hoy</h2>
+          <h2>Resumen mensual</h2>
 
           <p>
-            Información actual del negocio.
+            Consulta las cuentas del negocio por mes.
           </p>
-
         </div>
 
       </div>
 
-      <div className="resumen-grid">
+      {/* SELECCIÓN DEL MES */}
 
-        <div className="resumen-card">
+      <div className="formulario selector-mes no-print">
 
-          <span>🍦</span>
+        <h3>
+          📅 Seleccionar periodo
+        </h3>
 
-          <p>
-            Helados vendidos
-          </p>
+        <div className="selector-mes-grid">
 
-          <strong>
-            {resumen.helados_vendidos}
-          </strong>
+          <div>
+            <label>
+              Año
+            </label>
 
-        </div>
+            <input
+              type="number"
+              value={anio}
+              onChange={(e) =>
+                setAnio(e.target.value)
+              }
+            />
+          </div>
 
-        <div className="resumen-card">
+          <div>
+            <label>
+              Mes
+            </label>
 
-          <span>💰</span>
-
-          <p>
-            Dinero generado
-          </p>
-
-          <strong>
-            $
-            {Number(
-              resumen.dinero_generado
-            ).toLocaleString("es-CO")}
-          </strong>
-
-        </div>
-
-        <div className="resumen-card">
-
-          <span>📦</span>
-
-          <p>
-            Helados disponibles
-          </p>
-
-          <strong>
-            {resumen.helados_disponibles}
-          </strong>
-
-        </div>
-
-        <div className="resumen-card">
-
-          <span>🧊</span>
-
-          <p>
-            Producciones de hoy
-          </p>
-
-          <strong>
-            {resumen.producciones}
-          </strong>
+            <select
+              value={mes}
+              onChange={(e) =>
+                setMes(e.target.value)
+              }
+            >
+              {meses.map(
+                (nombre, index) => (
+                  <option
+                    key={nombre}
+                    value={index + 1}
+                  >
+                    {nombre}
+                  </option>
+                )
+              )}
+            </select>
+          </div>
 
         </div>
 
-        <div className="resumen-card">
-
-          <span>🥛</span>
-
-          <p>
-            Litros producidos
-          </p>
-
-          <strong>
-            {resumen.litros_producidos}
-          </strong>
-
-        </div>
+        <button
+          className="btn-principal"
+          onClick={cargarReporte}
+        >
+          📊 Consultar mes
+        </button>
 
       </div>
+
+      {/* CARGANDO */}
+
+      {cargando && (
+        <div className="formulario">
+          <p>
+            Cargando información...
+          </p>
+        </div>
+      )}
+
+      {/* REPORTE */}
+
+      {reporte && !cargando && (
+
+        <div className="reporte-mensual">
+
+          <div className="reporte-encabezado">
+
+            <h2>
+              🍦 Mundo Cremoso de Pao G
+            </h2>
+
+            <h3>
+              Resumen de{" "}
+              {meses[Number(mes) - 1]}{" "}
+              {anio}
+            </h3>
+
+            <p>
+              Reporte mensual del negocio
+            </p>
+
+          </div>
+
+          <div className="resumen-grid">
+
+            <div className="resumen-card">
+              <span>🧊</span>
+
+              <p>
+                Producciones
+              </p>
+
+              <strong>
+                {reporte.producciones}
+              </strong>
+            </div>
+
+            <div className="resumen-card">
+              <span>🥛</span>
+
+              <p>
+                Litros producidos
+              </p>
+
+              <strong>
+                {reporte.litros_producidos}
+              </strong>
+            </div>
+
+            <div className="resumen-card">
+              <span>🍦</span>
+
+              <p>
+                Helados producidos
+              </p>
+
+              <strong>
+                {reporte.helados_producidos}
+              </strong>
+            </div>
+
+            <div className="resumen-card">
+              <span>🛒</span>
+
+              <p>
+                Ventas realizadas
+              </p>
+
+              <strong>
+                {reporte.ventas}
+              </strong>
+            </div>
+
+            <div className="resumen-card">
+              <span>🍨</span>
+
+              <p>
+                Helados vendidos
+              </p>
+
+              <strong>
+                {reporte.helados_vendidos}
+              </strong>
+            </div>
+
+            <div className="resumen-card">
+              <span>💰</span>
+
+              <p>
+                Dinero generado
+              </p>
+
+              <strong>
+                $
+                {Number(
+                  reporte.ingresos
+                ).toLocaleString("es-CO")}
+              </strong>
+            </div>
+
+            <div className="resumen-card">
+              <span>💸</span>
+
+              <p>
+                Gastos
+              </p>
+
+              <strong>
+                $
+                {Number(
+                  reporte.gastos
+                ).toLocaleString("es-CO")}
+              </strong>
+            </div>
+
+            <div className="resumen-card utilidad-card">
+              <span>📈</span>
+
+              <p>
+                Ganancia del mes
+              </p>
+
+              <strong>
+                $
+                {Number(
+                  reporte.utilidad
+                ).toLocaleString("es-CO")}
+              </strong>
+            </div>
+
+            <div className="resumen-card">
+              <span>👤</span>
+
+              <p>
+                Deudas registradas
+              </p>
+
+              <strong>
+                $
+                {Number(
+                  reporte.deuda_total
+                ).toLocaleString("es-CO")}
+              </strong>
+            </div>
+
+            <div className="resumen-card">
+              <span>💳</span>
+
+              <p>
+                Deudas abonadas
+              </p>
+
+              <strong>
+                $
+                {Number(
+                  reporte.deuda_abonada
+                ).toLocaleString("es-CO")}
+              </strong>
+            </div>
+
+            <div className="resumen-card">
+              <span>⚠️</span>
+
+              <p>
+                Deuda pendiente
+              </p>
+
+              <strong>
+                $
+                {Number(
+                  reporte.deuda_pendiente
+                ).toLocaleString("es-CO")}
+              </strong>
+            </div>
+
+            <div className="resumen-card">
+              <span>📦</span>
+
+              <p>
+                Inventario actual
+              </p>
+
+              <strong>
+                {reporte.inventario_actual}
+              </strong>
+            </div>
+
+          </div>
+
+          {/* RECIBO */}
+
+          <div className="recibo-mensual">
+
+            <div className="recibo-linea"></div>
+
+            <h3>
+              🧾 RECIBO MENSUAL
+            </h3>
+
+            <p>
+              <strong>
+                Mundo Cremoso de Pao G
+              </strong>
+            </p>
+
+            <p>
+              Periodo:{" "}
+              {meses[Number(mes) - 1]}{" "}
+              {anio}
+            </p>
+
+            <div className="recibo-linea"></div>
+
+            <div className="recibo-fila">
+              <span>
+                Producciones
+              </span>
+
+              <strong>
+                {reporte.producciones}
+              </strong>
+            </div>
+
+            <div className="recibo-fila">
+              <span>
+                Helados producidos
+              </span>
+
+              <strong>
+                {reporte.helados_producidos}
+              </strong>
+            </div>
+
+            <div className="recibo-fila">
+              <span>
+                Helados vendidos
+              </span>
+
+              <strong>
+                {reporte.helados_vendidos}
+              </strong>
+            </div>
+
+            <div className="recibo-fila">
+              <span>
+                Ingresos
+              </span>
+
+              <strong>
+                $
+                {Number(
+                  reporte.ingresos
+                ).toLocaleString("es-CO")}
+              </strong>
+            </div>
+
+            <div className="recibo-fila">
+              <span>
+                Gastos
+              </span>
+
+              <strong>
+                $
+                {Number(
+                  reporte.gastos
+                ).toLocaleString("es-CO")}
+              </strong>
+            </div>
+
+            <div className="recibo-linea"></div>
+
+            <div className="recibo-total">
+              <span>
+                GANANCIA DEL MES
+              </span>
+
+              <strong>
+                $
+                {Number(
+                  reporte.utilidad
+                ).toLocaleString("es-CO")}
+              </strong>
+            </div>
+
+            <div className="recibo-linea"></div>
+
+            <p className="recibo-final">
+              Gracias por confiar en
+              <br />
+              Mundo Cremoso de Pao G 🍦
+            </p>
+
+          </div>
+
+          <div className="acciones-reporte no-print">
+
+            <button
+              className="btn-principal"
+              onClick={imprimirRecibo}
+            >
+              🖨️ Sacar recibo / Guardar PDF
+            </button>
+
+          </div>
+
+        </div>
+
+      )}
 
     </div>
   );
