@@ -1,187 +1,258 @@
+/* ============================================
+   MUNDO CREMOSO DE PAO G
+   DISEÑO RESPONSIVE PARA PC Y CELULAR
+============================================ */
+
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #3b2a25;
+  background: #fff8f3;
+
+  --fondo: #fff8f3;
+  --blanco: #ffffff;
+  --rosa: #e89ab2;
+  --rosa-oscuro: #c96f90;
+  --rosa-claro: #fff8fb;
+  --rosa-borde: #eadde3;
+  --texto: #3b2a25;
+  --texto-suave: #76615a;
+  --verde-claro: #ddf5df;
+  --sombra: 0 4px 15px rgba(59, 42, 37, 0.08);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100%;
+  overflow-x: clip;
+}
+
 body {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: clip;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #fff8f3;
-  color: #3b2a25;
+  background: var(--fondo);
+  color: var(--texto);
+}
+
+#root {
+  width: 100%;
+  min-width: 0;
 }
 
 button,
 input,
-select {
+select,
+textarea {
   font-family: inherit;
+  font-size: inherit;
 }
 
+button {
+  cursor: pointer;
+}
 
-/* =========================
-   ENCABEZADO
-========================= */
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+
+/* ============================================
+   INICIO Y ENCABEZADO
+============================================ */
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+}
 
 .encabezado {
-  background-color: #f7b6c8;
-  padding: 30px;
+  width: 100%;
+  padding: 28px 20px;
   text-align: center;
+  background: #f7b6c8;
 }
 
 .encabezado h1 {
-  font-size: 30px;
   margin-bottom: 8px;
+  font-size: clamp(23px, 4vw, 30px);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .encabezado p {
   font-size: 16px;
 }
 
-
-/* =========================
-   INICIO
-========================= */
-
 .contenido {
-  max-width: 850px;
-  margin: auto;
-  padding: 40px 20px;
+  width: min(100% - 32px, 850px);
+  margin: 0 auto;
+  padding: 36px 0;
 }
 
 .saludo {
+  margin-bottom: 28px;
   text-align: center;
-  margin-bottom: 30px;
 }
 
 .saludo h2 {
-  font-size: 28px;
   margin-bottom: 8px;
+  font-size: 28px;
 }
 
 .saludo p {
-  color: #76615a;
+  color: var(--texto-suave);
 }
-
-
-/* =========================
-   MENU
-========================= */
 
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
 }
 
 .menu-card {
-  min-height: 190px;
-  border: none;
-  border-radius: 20px;
-  padding: 25px;
-  cursor: pointer;
-
   display: flex;
+  min-width: 0;
+  min-height: 165px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  background-color: white;
-
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-
-  transition: 0.2s;
+  padding: 22px 16px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--blanco);
+  box-shadow: var(--sombra);
+  text-align: center;
+  transition: transform 0.2s ease;
 }
 
 .menu-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
 }
 
 .icono {
-  font-size: 50px;
   margin-bottom: 12px;
+  font-size: 42px;
 }
 
 .titulo-card {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 7px;
+  font-size: 19px;
+  font-weight: 700;
 }
 
 .descripcion {
-  color: #76615a;
+  color: var(--texto-suave);
   font-size: 14px;
-  text-align: center;
+  line-height: 1.5;
 }
-
-
-/* =========================
-   FOOTER
-========================= */
 
 footer {
-  text-align: center;
-  padding: 25px;
+  padding: 24px 16px;
   color: #8b756d;
+  text-align: center;
 }
 
-
-/* =========================
-   PANTALLAS
-========================= */
+/* ============================================
+   PANTALLAS INTERNAS
+============================================ */
 
 .pantalla {
-  max-width: 700px;
-  margin: auto;
-  padding: 30px 20px;
+  width: min(100% - 40px, 900px);
+  min-width: 0;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 28px 0 40px;
 }
 
 .btn-volver {
-  border: none;
-  background: none;
+  display: inline-block;
+  margin-bottom: 24px;
+  padding: 9px 0;
+  border: 0;
+  background: transparent;
   color: #7c4a5a;
   font-size: 16px;
-  cursor: pointer;
-  margin-bottom: 30px;
+  text-align: left;
+}
+
+.btn-volver:hover {
+  color: var(--rosa-oscuro);
+  text-decoration: underline;
 }
 
 .titulo-pantalla {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-bottom: 30px;
+  min-width: 0;
+  margin-bottom: 25px;
 }
 
 .titulo-pantalla > span {
-  font-size: 45px;
+  flex-shrink: 0;
+  font-size: 40px;
+}
+
+.titulo-pantalla > div {
+  min-width: 0;
 }
 
 .titulo-pantalla h2 {
-  font-size: 30px;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
+  font-size: clamp(24px, 4vw, 32px);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .titulo-pantalla p {
-  color: #76615a;
+  color: var(--texto-suave);
+  line-height: 1.5;
 }
 
-
-/* =========================
+/* ============================================
    FORMULARIOS
-========================= */
+============================================ */
 
 .formulario {
-  background-color: white;
-  padding: 30px;
-  border-radius: 20px;
+  width: 100%;
+  min-width: 0;
+  margin: 16px 0 22px;
+  padding: 25px;
+  border-radius: 18px;
+  background: var(--blanco);
+  box-shadow: var(--sombra);
+}
 
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+.formulario h3 {
+  margin-bottom: 16px;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.formulario p {
+  line-height: 1.5;
 }
 
 .formulario label {
   display: block;
-  font-weight: bold;
-  margin-top: 20px;
-  margin-bottom: 8px;
+  margin: 18px 0 8px;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
 .formulario label:first-child {
@@ -189,468 +260,385 @@ footer {
 }
 
 .formulario input,
-.formulario select {
+.formulario select,
+.formulario textarea {
+  display: block;
   width: 100%;
-  padding: 15px;
-
-  border: 2px solid #eadde0;
-  border-radius: 12px;
-
-  font-size: 16px;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--rosa-borde);
+  border-radius: 10px;
   outline: none;
+  background: #fff;
+  color: var(--texto);
+  font-size: 16px;
 }
 
 .formulario input:focus,
-.formulario select:focus {
-  border-color: #e89ab2;
+.formulario select:focus,
+.formulario textarea:focus {
+  border-color: var(--rosa);
+  box-shadow: 0 0 0 3px rgba(232, 154, 178, 0.18);
 }
 
-
-/* =========================
-   BOTON PRINCIPAL
-========================= */
+/* ============================================
+   BOTONES
+============================================ */
 
 .btn-principal {
+  display: block;
   width: 100%;
-  margin-top: 25px;
-  padding: 16px;
-
-  border: none;
-  border-radius: 12px;
-
-  background-color: #e89ab2;
-  color: white;
-
-  font-size: 17px;
-  font-weight: bold;
-
-  cursor: pointer;
+  min-height: 46px;
+  margin-top: 22px;
+  padding: 13px 16px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--rosa);
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  transition: background 0.2s ease;
 }
 
-.btn-principal:hover {
-  background-color: #d9829d;
+.btn-principal:hover:not(:disabled) {
+  background: var(--rosa-oscuro);
 }
 
-
-/* =========================
-   VENTA - PRECIO
-========================= */
-
-.precio-automatico,
-.total-venta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 18px;
-  border-radius: 12px;
-  margin-top: 20px;
+.btn-secundario {
+  max-width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--rosa);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--texto);
+  font-weight: 600;
 }
 
-.precio-automatico {
-  background-color: #f8f2f4;
+.btn-secundario:hover:not(:disabled) {
+  background: #ffe1ec;
 }
 
-.total-venta {
-  background-color: #ffe1ec;
-  font-size: 18px;
-}
-
-.total-venta strong {
-  font-size: 24px;
-}
-
-
-/* =========================
-   SABORES DE PRODUCCIÓN
-========================= */
+/* ============================================
+   PRODUCCIÓN
+============================================ */
 
 .sabores-produccion {
-  margin-top: 15px;
-
   display: flex;
   flex-direction: column;
-
   gap: 10px;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.sabor-produccion,
+.sabor-opcion {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(100px, 140px);
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--rosa-borde);
+  border-radius: 12px;
+  background: var(--rosa-claro);
 }
 
 .sabor-opcion {
-  display: grid;
-  grid-template-columns: 30px 1fr 120px;
-
-  align-items: center;
-
-  gap: 10px;
-
-  padding: 14px;
-
-  background-color: #fff8fb;
-
-  border: 1px solid #eadde0;
-  border-radius: 12px;
-
+  grid-template-columns: 22px minmax(0, 1fr) minmax(90px, 120px);
   cursor: pointer;
 }
 
 .sabor-opcion input[type="checkbox"] {
   width: 20px;
   height: 20px;
-
-  cursor: pointer;
 }
 
 .sabor-opcion span {
-  font-weight: 500;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
-.sabor-opcion .cantidad-sabor {
+.cantidad-sabor {
   width: 100%;
-
+  min-width: 0;
   padding: 10px;
-
-  border: 1px solid #eadde0;
-
+  border: 1px solid var(--rosa-borde);
   border-radius: 8px;
-
-  font-size: 14px;
+  background: #fff;
 }
 
-
-/* =========================
-   SABORES DE VENTA
-========================= */
+/* ============================================
+   VENTAS
+============================================ */
 
 .sabores-venta {
   display: flex;
   flex-direction: column;
-
-  gap: 10px;
-
-  margin-top: 15px;
+  gap: 13px;
+  width: 100%;
+  min-width: 0;
+  margin-top: 17px;
 }
 
 .sabor-venta {
   display: grid;
-
-  grid-template-columns: 1fr 120px;
-
+  grid-template-columns: minmax(0, 1fr) minmax(145px, 180px);
   align-items: center;
-
-  gap: 15px;
-
-  padding: 14px;
-
-  background-color: #fff8fb;
-
-  border: 1px solid #eadde0;
-
-  border-radius: 12px;
+  gap: 18px;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 18px;
+  border: 1px solid var(--rosa-borde);
+  border-radius: 14px;
+  background: var(--rosa-claro);
 }
-
-
-/* NOMBRE DEL SABOR */
 
 .nombre-sabor {
+  display: block;
+  min-width: 0;
+  line-height: 1.5;
+}
+
+.nombre-sabor span {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.sabor-venta > div:last-child {
   display: flex;
-  align-items: center;
-
-  gap: 12px;
-
-  font-weight: 500;
+  min-width: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 7px;
+  margin: 0;
 }
 
-.nombre-sabor input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-
-  cursor: pointer;
-}
-
-
-/* CANTIDAD DE VENTA */
-
-.cantidad-venta {
+.formulario .cantidad-venta {
+  display: block;
   width: 100%;
-
-  padding: 10px !important;
-
-  border: 1px solid #eadde0 !important;
-
-  border-radius: 8px !important;
-
-  font-size: 15px !important;
+  min-width: 0;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid #e4d4dc;
+  border-radius: 9px;
+  background: #fff;
+  color: var(--texto);
+  font-size: 16px;
 }
 
-.cantidad-venta:disabled {
-  background-color: #eeeeee;
+.formulario .cantidad-venta:focus {
+  border-color: var(--rosa);
+  outline: 2px solid rgba(232, 154, 178, 0.2);
+}
 
+.formulario .cantidad-venta:disabled {
+  background: #f0eeee;
+  color: #999;
   cursor: not-allowed;
 }
 
+.disponibles {
+  display: block;
+  margin: 0;
+  padding: 0;
+  color: var(--texto-suave);
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
 
-/* =========================
-   RESUMEN DE VENTA
-========================= */
+/* ============================================
+   TOTAL DE VENTA
+============================================ */
 
 .resumen-venta {
-  margin-top: 25px;
-
-  background-color: #f8f2f4;
-
-  border-radius: 15px;
-
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  gap: 0;
+  margin-top: 20px;
   overflow: hidden;
+  border: 1px solid var(--rosa-borde);
+  border-radius: 13px;
+  background: #f8f2f4;
 }
 
 .resumen-venta > div {
   display: flex;
-
   justify-content: space-between;
-
   align-items: center;
-
-  padding: 15px 18px;
-
-  border-bottom: 1px solid #eadde0;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--rosa-borde);
 }
 
 .resumen-venta > div:last-child {
-  border-bottom: none;
+  border-bottom: 0;
 }
 
 .resumen-venta span {
-  color: #76615a;
+  min-width: 0;
+  color: var(--texto-suave);
+  font-size: 15px;
+  line-height: 1.4;
 }
 
 .resumen-venta strong {
+  min-width: 0;
   font-size: 18px;
+  text-align: right;
+  overflow-wrap: anywhere;
 }
 
-
-/* TOTAL FINAL */
-
 .resumen-venta .total-final {
-  background-color: #ffe1ec;
+  background: #ffe1ec;
 }
 
 .resumen-venta .total-final span {
-  color: #3b2a25;
-
-  font-weight: bold;
+  color: var(--texto);
+  font-weight: 700;
 }
 
 .resumen-venta .total-final strong {
-  font-size: 25px;
+  color: #a33e65;
+  font-size: 23px;
 }
 
-
-/* =========================
+/* ============================================
    INVENTARIO
-========================= */
+============================================ */
 
 .inventario-lista {
   display: flex;
   flex-direction: column;
-
-  gap: 12px;
+  gap: 11px;
+  width: 100%;
 }
 
 .helado {
-  background-color: white;
-
-  padding: 18px 20px;
-
-  border-radius: 14px;
-
   display: flex;
-
   justify-content: space-between;
-
   align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 15px 17px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
 
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+.helado span {
+  min-width: 0;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .helado strong {
-  background-color: #f7b6c8;
-
-  padding: 8px 14px;
-
-  border-radius: 10px;
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border-radius: 9px;
+  background: #f7b6c8;
 }
 
 .total-inventario {
-  margin-top: 20px;
-
-  background-color: #ddf5df;
-
-  padding: 20px;
-
-  border-radius: 15px;
-
   display: flex;
-
   justify-content: space-between;
-
-  font-size: 20px;
-
-  font-weight: bold;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 13px;
+  background: var(--verde-claro);
+  font-size: 18px;
+  font-weight: 700;
 }
 
-
-/* =========================
+/* ============================================
    RESUMEN
-========================= */
+============================================ */
 
 .resumen-grid {
   display: grid;
-
-  grid-template-columns: repeat(3, 1fr);
-
-  gap: 15px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .resumen-card {
-  background-color: white;
-
-  padding: 25px 15px;
-
-  border-radius: 18px;
-
+  min-width: 0;
+  padding: 22px 12px;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
   text-align: center;
-
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+  overflow-wrap: anywhere;
 }
 
 .resumen-card span {
-  font-size: 35px;
+  font-size: 32px;
 }
 
 .resumen-card p {
-  margin: 12px 0;
-
-  color: #76615a;
+  margin: 11px 0;
+  color: var(--texto-suave);
+  line-height: 1.4;
 }
 
 .resumen-card strong {
-  font-size: 25px;
+  font-size: 22px;
 }
 
-
-/* =========================
-   CELULAR
-========================= */
-
-@media (max-width: 600px) {
-
-  .menu-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .menu-card {
-    min-height: 150px;
-  }
-
-  .resumen-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .encabezado h1 {
-    font-size: 24px;
-  }
-
-  .sabor-opcion {
-    grid-template-columns: 30px 1fr;
-  }
-
-  .sabor-opcion .cantidad-sabor {
-    grid-column: 2;
-  }
-
-  .sabor-venta {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .cantidad-venta {
-    width: 100%;
-  }
-
-
-  .deuda-card {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 16px;
-  margin-bottom: 12px;
-  background-color: #fff8fb;
-  border: 1px solid #eadde0;
-  border-radius: 12px;
+.utilidad-card {
+  border: 2px solid var(--rosa);
 }
 
-.deuda-card strong {
-  font-size: 16px;
-}
-
-.deuda-card small {
-  color: #76615a;
-}
-
-.btn-secundario {
-  border: 1px solid #e89ab2;
-  background-color: #fff;
-  color: #3b2a25;
-  padding: 10px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.btn-secundario:hover {
-  background-color: #ffe1ec;
-}
-
+/* ============================================
+   DEUDAS
+============================================ */
 
 .deuda-card {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 16px;
+  width: 100%;
+  min-width: 0;
   margin-bottom: 12px;
-  background-color: #fff8fb;
-  border: 1px solid #eadde0;
+  padding: 15px;
+  border: 1px solid var(--rosa-borde);
   border-radius: 12px;
+  background: var(--rosa-claro);
 }
 
 .deuda-card strong {
   font-size: 16px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .deuda-card small {
-  color: #76615a;
+  color: var(--texto-suave);
 }
 
-.btn-secundario {
-  border: 1px solid #e89ab2;
-  background-color: #ffffff;
-  color: #3b2a25;
-  padding: 10px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-}
+/* ============================================
+   REPORTES
+============================================ */
 
-.btn-secundario:hover {
-  background-color: #ffe1ec;
-}
-
-.reporte {
+.reporte,
+.reporte-mensual {
   width: 100%;
+  min-width: 0;
 }
 
 .reporte-encabezado {
-  text-align: center;
   margin-bottom: 25px;
+  text-align: center;
 }
 
 .reporte-encabezado h2 {
@@ -658,168 +646,26 @@ footer {
 }
 
 .reporte-encabezado h3 {
-  color: #76615a;
+  margin-bottom: 8px;
+  color: var(--texto-suave);
+  font-size: 22px;
   font-weight: 500;
 }
 
-@media print {
-  body {
-    background-color: white;
-  }
-
-  .no-print {
-    display: none !important;
-  }
-
-  .pantalla {
-    max-width: 100%;
-    padding: 20px;
-  }
-
-  .reporte {
-    width: 100%;
-  }
-
-  .resumen-card {
-    break-inside: avoid;
-  }
-}
-
-
-/* ================================
-   AJUSTES FINALES PARA CELULAR
-   ================================ */
-
-.sabor-venta {
-  margin-bottom: 18px;
-  padding: 18px;
-  border-radius: 16px;
-}
-
-.sabor-venta .nombre-sabor {
-  margin-bottom: 12px;
-}
-
-.cantidad-venta {
-  width: 100%;
-  box-sizing: border-box;
-  margin-bottom: 4px;
-}
-
-.disponibles {
-  display: block;
-  margin-top: 7px;
-  line-height: 1.4;
-}
-
-.disponibles + .disponibles {
-  margin-top: 4px;
-}
-
-.sabor-venta > div:last-child {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.btn-volver {
-  margin-bottom: 28px;
-}
-
-.titulo-pantalla {
-  margin-bottom: 28px;
-}
-
-.titulo-pantalla h2 {
-  margin-bottom: 8px;
-}
-
-.titulo-pantalla p {
-  margin-top: 0;
-}
-
-.formulario {
-  margin-top: 10px;
-}
-
-.resumen-venta {
-  margin-top: 24px;
-  gap: 16px;
-}
-
-@media (max-width: 600px) {
-  .pantalla {
-    padding: 20px 16px;
-  }
-
-  .btn-volver {
-    margin-bottom: 24px;
-  }
-
-  .titulo-pantalla {
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-
-  .titulo-pantalla h2 {
-    font-size: 30px;
-    line-height: 1.1;
-  }
-
-  .titulo-pantalla p {
-    font-size: 17px;
-    line-height: 1.4;
-  }
-
-  .formulario {
-    padding: 22px 18px;
-  }
-
-  .sabor-venta {
-    margin-bottom: 14px;
-    padding: 18px;
-  }
-
-  .sabor-venta .nombre-sabor span {
-    font-size: 20px;
-  }
-
-  .cantidad-venta {
-    min-height: 54px;
-    font-size: 18px;
-  }
-
-  .disponibles {
-    font-size: 15px;
-  }
-}
-
-/* =========================================
-   RESUMEN MENSUAL Y RECIBO
-   ========================================= */
-
-.resumen-mensual {
-  padding-bottom: 50px;
-}
-
 .selector-mes {
-  margin-bottom: 30px;
-}
-
-.selector-mes h3 {
-  margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .selector-mes-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
   margin-bottom: 20px;
 }
 
 .selector-mes-grid > div {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   gap: 8px;
 }
@@ -828,45 +674,17 @@ footer {
   font-weight: 600;
 }
 
-.selector-mes-grid input,
-.selector-mes-grid select {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.reporte-mensual {
-  width: 100%;
-}
-
-.reporte-encabezado {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.reporte-encabezado h2 {
-  margin-bottom: 8px;
-}
-
-.reporte-encabezado h3 {
-  margin: 0 0 6px;
-  font-size: 24px;
-}
-
-.reporte-encabezado p {
-  margin: 0;
-}
-
-.utilidad-card {
-  border: 2px solid #e89ab2;
-}
+/* ============================================
+   RECIBO
+============================================ */
 
 .recibo-mensual {
-  max-width: 520px;
-  margin: 35px auto 25px;
-  padding: 28px;
-  background: #ffffff;
+  width: min(100%, 560px);
+  margin: 25px auto;
+  padding: 25px;
   border: 1px dashed #9d8585;
   border-radius: 12px;
+  background: #fff;
   text-align: center;
 }
 
@@ -877,111 +695,407 @@ footer {
 
 .recibo-mensual p {
   margin: 7px 0;
+  line-height: 1.5;
 }
 
 .recibo-linea {
+  margin: 17px 0;
   border-top: 1px dashed #9d8585;
-  margin: 18px 0;
 }
 
-.recibo-fila {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 7px 0;
-  text-align: left;
-}
-
+.recibo-fila,
 .recibo-total {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+  gap: 14px;
+  padding: 8px 0;
+  text-align: left;
+}
+
+.recibo-fila span,
+.recibo-total span,
+.recibo-fila strong,
+.recibo-total strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.recibo-fila strong,
+.recibo-total strong {
+  text-align: right;
+}
+
+.recibo-total {
   padding: 12px 0;
   font-size: 18px;
 }
 
 .recibo-final {
-  margin-top: 20px !important;
+  margin-top: 18px !important;
   font-size: 14px;
 }
 
 .acciones-reporte {
-  max-width: 520px;
+  width: min(100%, 560px);
   margin: 0 auto;
 }
 
-.acciones-reporte .btn-principal {
-  width: 100%;
+/* ============================================
+   TABLET
+============================================ */
+
+@media screen and (max-width: 760px) {
+  .pantalla {
+    width: calc(100% - 32px);
+  }
+
+  .resumen-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sabor-venta {
+    grid-template-columns: minmax(0, 1fr) minmax(130px, 155px);
+    gap: 14px;
+    padding: 15px;
+  }
+
+  .formulario {
+    padding: 20px;
+  }
 }
 
-@media (max-width: 600px) {
+/* ============================================
+   CELULAR
+============================================ */
 
-  .selector-mes-grid {
-    grid-template-columns: 1fr;
+@media screen and (max-width: 600px) {
+  .encabezado {
+    padding: 20px 12px;
   }
 
-  .reporte-encabezado h2 {
-    font-size: 25px;
+  .encabezado h1 {
+    font-size: 23px;
   }
 
-  .reporte-encabezado h3 {
-    font-size: 21px;
+  .contenido {
+    width: 100%;
+    padding: 20px 12px;
   }
 
-  .recibo-mensual {
-    padding: 22px 18px;
-    margin-top: 25px;
+  .saludo {
+    margin-bottom: 20px;
   }
 
-  .recibo-fila {
+  .saludo h2 {
+    font-size: 24px;
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .menu-card {
+    min-height: 135px;
+    padding: 13px 8px;
+    border-radius: 13px;
+  }
+
+  .icono {
+    margin-bottom: 8px;
+    font-size: 32px;
+  }
+
+  .titulo-card {
     font-size: 15px;
   }
 
-  .recibo-total {
+  .descripcion {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .pantalla {
+    width: 100%;
+    min-width: 0;
+    padding: 14px 12px 30px;
+  }
+
+  .btn-volver {
+    margin-bottom: 18px;
+    font-size: 15px;
+  }
+
+  .titulo-pantalla {
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .titulo-pantalla > span {
+    font-size: 32px;
+  }
+
+  .titulo-pantalla h2 {
+    font-size: 24px;
+  }
+
+  .titulo-pantalla p {
+    font-size: 14px;
+  }
+
+  .formulario {
+    width: 100%;
+    margin: 12px 0 17px;
+    padding: 15px 12px;
+    border-radius: 13px;
+  }
+
+  .formulario h3 {
+    font-size: 18px;
+  }
+
+  .formulario label {
+    margin-top: 15px;
+  }
+
+  /* Tarjetas compactas para móvil */
+
+  .sabores-venta {
+    gap: 10px;
+    margin-top: 13px;
+  }
+
+  .sabor-venta {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 9px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 11px;
+  }
+
+  .nombre-sabor {
+    width: 100%;
+  }
+
+  .nombre-sabor span {
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  .sabor-venta > div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+  }
+
+  .formulario .cantidad-venta {
+    min-height: 40px;
+    padding: 8px 10px;
     font-size: 16px;
+  }
+
+  .sabor-venta .disponibles {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  /* Totales compactos */
+
+  .resumen-venta {
+    margin-top: 15px;
+  }
+
+  .resumen-venta > div {
+    gap: 8px;
+    padding: 11px 10px;
+  }
+
+  .resumen-venta span {
+    font-size: 13px;
+  }
+
+  .resumen-venta strong {
+    font-size: 16px;
+  }
+
+  .resumen-venta .total-final strong {
+    font-size: 19px;
+  }
+
+  /* Producción */
+
+  .sabor-produccion {
+    grid-template-columns: minmax(0, 1fr) minmax(85px, 105px);
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .sabor-opcion {
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .sabor-opcion .cantidad-sabor {
+    grid-column: 2;
+  }
+
+  /* Inventario */
+
+  .helado {
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .helado strong {
+    padding: 7px 10px;
+  }
+
+  .total-inventario {
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  /* Indicadores */
+
+  .resumen-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .resumen-card {
+    padding: 14px 7px;
+    border-radius: 12px;
+  }
+
+  .resumen-card span {
+    font-size: 28px;
+  }
+
+  .resumen-card p {
+    margin: 8px 0;
+    font-size: 12px;
+  }
+
+  .resumen-card strong {
+    font-size: 18px;
+  }
+
+  /* Reportes y recibo */
+
+  .selector-mes-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .recibo-mensual {
+    padding: 16px 12px;
+  }
+
+  .recibo-fila {
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  .recibo-total {
+    font-size: 15px;
+  }
+
+  /* Deudas */
+
+  .deuda-card {
+    padding: 12px;
   }
 }
 
-/* =========================================
-   IMPRESIÓN DEL RECIBO
-   ========================================= */
+/* ============================================
+   CELULARES MUY ESTRECHOS
+============================================ */
 
-@media print {
-
-  body {
-    background: white !important;
+@media screen and (max-width: 360px) {
+  .contenido {
+    padding-right: 10px;
+    padding-left: 10px;
   }
 
-  .no-print {
+  .pantalla {
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+
+  .formulario {
+    padding: 12px 9px;
+  }
+
+  .sabor-venta {
+    padding: 10px;
+  }
+
+  .menu-card {
+    min-height: 125px;
+    padding: 10px 5px;
+  }
+
+  .titulo-card {
+    font-size: 14px;
+  }
+
+  .descripcion {
+    font-size: 11px;
+  }
+
+  .resumen-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ============================================
+   IMPRESIÓN Y PDF
+============================================ */
+
+@media print {
+  @page {
+    size: auto;
+    margin: 12mm;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .no-print,
+  .btn-volver,
+  .btn-principal,
+  .btn-secundario,
+  footer {
     display: none !important;
   }
 
   .pantalla {
     width: 100%;
-    max-width: 100%;
-    padding: 0;
+    min-height: auto;
     margin: 0;
+    padding: 0;
   }
 
+  .reporte,
   .reporte-mensual {
     width: 100%;
   }
 
-  .reporte-encabezado {
-    margin-bottom: 20px;
-  }
-
-  .resumen-grid {
+  .resumen-card,
+  .recibo-mensual {
     break-inside: avoid;
-  }
-
-  .resumen-card {
-    break-inside: avoid;
+    box-shadow: none;
   }
 
   .recibo-mensual {
-    max-width: 600px;
-    margin: 25px auto;
+    max-width: 100%;
+    margin: 18px auto;
     border: 1px dashed #555;
   }
 
@@ -990,4 +1104,311 @@ footer {
   }
 }
 
+
+/* =========================================================
+   CORRECCIÓN RESPONSIVE DEFINITIVA
+   Prioridad: iPhone y pantallas estrechas sin desbordamiento
+========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  -webkit-text-size-adjust: 100%;
+}
+
+.app {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  overflow-x: clip;
+}
+
+.encabezado,
+.contenido,
+.pantalla,
+.formulario,
+.menu-grid,
+.menu-card,
+.sabores-venta,
+.sabor-venta,
+.sabores-produccion,
+.sabor-opcion,
+.resumen-grid,
+.resumen-card,
+.reporte,
+.reporte-mensual,
+.recibo-mensual {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.encabezado h1,
+.encabezado p,
+.titulo-card,
+.descripcion,
+.titulo-pantalla h2,
+.titulo-pantalla p,
+.nombre-sabor,
+.nombre-sabor span,
+.disponibles,
+.resumen-card,
+.helado span,
+.deuda-card,
+.recibo-mensual,
+.reporte-encabezado {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+input,
+select,
+textarea,
+button {
+  max-width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  html,
+  body,
+  #root,
+  .app {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  .encabezado {
+    width: 100% !important;
+    padding: 18px 12px !important;
+    text-align: center;
+  }
+
+  .encabezado h1 {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto 6px;
+    font-size: clamp(19px, 5.4vw, 24px) !important;
+    line-height: 1.25;
+  }
+
+  .encabezado p {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .contenido {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 22px 14px !important;
+  }
+
+  .saludo {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .saludo h2 {
+    font-size: 24px;
+    line-height: 1.25;
+  }
+
+  /* Una sola columna en el inicio para que ninguna tarjeta quede cortada. */
+  .menu-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  .menu-card {
+    display: flex;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 125px;
+    padding: 18px 14px !important;
+    white-space: normal;
+  }
+
+  .titulo-card {
+    font-size: 17px;
+    line-height: 1.35;
+  }
+
+  .descripcion {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .pantalla {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 16px 14px 30px !important;
+  }
+
+  .titulo-pantalla {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .titulo-pantalla > span {
+    flex-shrink: 0;
+    font-size: 30px !important;
+  }
+
+  .titulo-pantalla > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .titulo-pantalla h2 {
+    font-size: 23px !important;
+    line-height: 1.25;
+  }
+
+  .formulario {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 12px 0 18px !important;
+    padding: 15px 12px !important;
+  }
+
+  .formulario input,
+  .formulario select,
+  .formulario textarea {
+    width: 100%;
+    min-width: 0;
+    font-size: 16px;
+  }
+
+  .sabor-venta {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    gap: 9px !important;
+    padding: 12px !important;
+  }
+
+  .nombre-sabor,
+  .sabor-venta > div:last-child {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .nombre-sabor span {
+    font-size: 15px !important;
+    line-height: 1.4;
+  }
+
+  .formulario .cantidad-venta {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 42px;
+    margin: 0 !important;
+    font-size: 16px !important;
+  }
+
+  .disponibles {
+    font-size: 12px !important;
+    line-height: 1.4;
+  }
+
+  .sabor-produccion {
+    grid-template-columns: minmax(0, 1fr) minmax(75px, 100px) !important;
+    gap: 8px !important;
+    padding: 10px !important;
+  }
+
+  .sabor-opcion {
+    grid-template-columns: 20px minmax(0, 1fr) !important;
+    gap: 8px !important;
+    padding: 10px !important;
+  }
+
+  .sabor-opcion .cantidad-sabor {
+    grid-column: 2;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .resumen-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+  }
+
+  .resumen-card {
+    padding: 14px 7px !important;
+  }
+
+  .selector-mes-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .recibo-mensual {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 14px 10px !important;
+  }
+
+  .recibo-fila,
+  .recibo-total {
+    gap: 8px;
+  }
+
+  .recibo-fila span,
+  .recibo-fila strong,
+  .recibo-total span,
+  .recibo-total strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .contenido,
+  .pantalla {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+  }
+
+  .formulario {
+    padding: 12px 9px !important;
+  }
+
+  .menu-card {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+  }
 }
