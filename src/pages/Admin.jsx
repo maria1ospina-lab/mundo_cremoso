@@ -10,43 +10,48 @@ function Admin({ cambiarPantalla }) {
   const [valorGasto, setValorGasto] = useState("");
 
   const [nombreDeuda, setNombreDeuda] = useState("");
-  const [telefonoDeuda, setTelefonoDeuda] =
-    useState("");
+  const [telefonoDeuda, setTelefonoDeuda] = useState("");
   const [valorDeuda, setValorDeuda] = useState("");
 
   const [cargando, setCargando] = useState(true);
+  const [guardandoPrecio, setGuardandoPrecio] = useState(null);
 
   async function cargarDatos() {
     setCargando(true);
 
-    const { data: saboresData } =
+    const { data: saboresData, error: saboresError } =
       await supabase
         .from("sabores")
-        .select("id, nombre, precio")
+        .select("id, nombre, precio, precio_mayorista")
         .eq("activo", true)
         .order("id");
 
-    const { data: gastosData } =
+    if (saboresError) {
+      console.error(saboresError);
+      alert("No se pudieron cargar los sabores.");
+      setCargando(false);
+      return;
+    }
+
+    const { data: gastosData, error: gastosError } =
       await supabase
         .from("gastos")
         .select("*")
-        .order("fecha", {
-          ascending: false
-        })
+        .order("fecha", { ascending: false })
         .limit(20);
 
-    const { data: deudasData } =
+    const { data: deudasData, error: deudasError } =
       await supabase
         .from("deudas")
         .select("*")
-        .order("fecha", {
-          ascending: false
-        });
+        .order("fecha", { ascending: false });
+
+    if (gastosError) console.error(gastosError);
+    if (deudasError) console.error(deudasError);
 
     setSabores(saboresData || []);
     setGastos(gastosData || []);
     setDeudas(deudasData || []);
-
     setCargando(false);
   }
 
@@ -54,60 +59,56 @@ function Admin({ cambiarPantalla }) {
     cargarDatos();
   }, []);
 
-  async function cambiarPrecio(id, precioActual) {
-    const nuevoPrecio = prompt(
-      "Escribe el nuevo precio:",
+  async function cambiarPrecio(sabor, campo) {
+    const esMayorista = campo === "precio_mayorista";
+
+    const precioActual = esMayorista
+      ? sabor.precio_mayorista ?? sabor.precio
+      : sabor.precio;
+
+    const respuesta = prompt(
+      `Nuevo precio ${esMayorista ? "mayorista" : "normal"} para ${sabor.nombre}:`,
       precioActual
     );
 
-    if (nuevoPrecio === null) {
+    if (respuesta === null) return;
+
+    const precio = Number(respuesta);
+
+    if (!Number.isSafeInteger(precio) || precio < 0) {
+      alert("Ingresa un precio entero válido, igual o mayor que cero.");
       return;
     }
 
-    const precio = Number(nuevoPrecio);
+    setGuardandoPrecio(`${sabor.id}-${campo}`);
 
-    if (precio < 0 || Number.isNaN(precio)) {
-      alert("Ingresa un precio válido.");
-      return;
-    }
+    const { error } = await supabase
+      .from("sabores")
+      .update({ [campo]: precio })
+      .eq("id", sabor.id);
 
-    const { error } =
-      await supabase.rpc(
-        "actualizar_precio",
-        {
-          p_sabor_id: id,
-          p_precio: precio
-        }
-      );
+    setGuardandoPrecio(null);
 
     if (error) {
-      alert(error.message);
+      console.error(error);
+      alert("No se pudo actualizar el precio: " + error.message);
       return;
     }
 
     await cargarDatos();
-
     alert("Precio actualizado correctamente.");
   }
 
   async function guardarGasto() {
-    if (
-      !concepto.trim() ||
-      !valorGasto ||
-      Number(valorGasto) <= 0
-    ) {
-      alert("Completa correctamente los datos.");
+    if (!concepto.trim() || !valorGasto || Number(valorGasto) <= 0) {
+      alert("Completa correctamente los datos del gasto.");
       return;
     }
 
-    const { error } =
-      await supabase.rpc(
-        "registrar_gasto",
-        {
-          p_concepto: concepto,
-          p_valor: Number(valorGasto)
-        }
-      );
+    const { error } = await supabase.rpc("registrar_gasto", {
+      p_concepto: concepto.trim(),
+      p_valor: Number(valorGasto)
+    });
 
     if (error) {
       alert(error.message);
@@ -116,31 +117,21 @@ function Admin({ cambiarPantalla }) {
 
     setConcepto("");
     setValorGasto("");
-
     await cargarDatos();
-
     alert("Gasto registrado correctamente.");
   }
 
   async function guardarDeuda() {
-    if (
-      !nombreDeuda.trim() ||
-      !valorDeuda ||
-      Number(valorDeuda) <= 0
-    ) {
-      alert("Completa correctamente los datos.");
+    if (!nombreDeuda.trim() || !valorDeuda || Number(valorDeuda) <= 0) {
+      alert("Completa correctamente los datos de la deuda.");
       return;
     }
 
-    const { error } =
-      await supabase.rpc(
-        "registrar_deuda",
-        {
-          p_nombre: nombreDeuda,
-          p_telefono: telefonoDeuda,
-          p_valor: Number(valorDeuda)
-        }
-      );
+    const { error } = await supabase.rpc("registrar_deuda", {
+      p_nombre: nombreDeuda.trim(),
+      p_telefono: telefonoDeuda.trim(),
+      p_valor: Number(valorDeuda)
+    });
 
     if (error) {
       alert(error.message);
@@ -150,47 +141,30 @@ function Admin({ cambiarPantalla }) {
     setNombreDeuda("");
     setTelefonoDeuda("");
     setValorDeuda("");
-
     await cargarDatos();
-
     alert("Deuda registrada correctamente.");
   }
 
   async function registrarAbono(deuda) {
-    const pendiente =
-      deuda.valor - deuda.abonado;
+    const pendiente = Number(deuda.valor) - Number(deuda.abonado);
 
     const respuesta = prompt(
-      `Pendiente: $${pendiente.toLocaleString(
-        "es-CO"
-      )}\n\n¿Cuánto abonó?`
+      `Pendiente: $${pendiente.toLocaleString("es-CO")}\n¿Cuánto abonó?`
     );
 
-    if (respuesta === null) {
-      return;
-    }
+    if (respuesta === null) return;
 
     const abono = Number(respuesta);
 
-    if (
-      !abono ||
-      abono <= 0 ||
-      abono > pendiente
-    ) {
-      alert(
-        "El valor del abono no es válido."
-      );
+    if (!Number.isSafeInteger(abono) || abono <= 0 || abono > pendiente) {
+      alert("El abono no es válido.");
       return;
     }
 
-    const { error } =
-      await supabase.rpc(
-        "registrar_abono_deuda",
-        {
-          p_deuda_id: deuda.id,
-          p_abono: abono
-        }
-      );
+    const { error } = await supabase.rpc("registrar_abono_deuda", {
+      p_deuda_id: deuda.id,
+      p_abono: abono
+    });
 
     if (error) {
       alert(error.message);
@@ -198,7 +172,6 @@ function Admin({ cambiarPantalla }) {
     }
 
     await cargarDatos();
-
     alert("Abono registrado correctamente.");
   }
 
@@ -208,10 +181,7 @@ function Admin({ cambiarPantalla }) {
         <div className="titulo-pantalla">
           <span>⚙️</span>
           <div>
-            <h2>Cargando...</h2>
-            <p>
-              Cargando administración.
-            </p>
+            <h2>Cargando administración...</h2>
           </div>
         </div>
       </div>
@@ -220,258 +190,194 @@ function Admin({ cambiarPantalla }) {
 
   return (
     <div className="pantalla">
-
       <button
         className="btn-volver"
-        onClick={() =>
-          cambiarPantalla("inicio")
-        }
+        onClick={() => cambiarPantalla("inicio")}
       >
         ← Volver al inicio
       </button>
 
       <div className="titulo-pantalla">
         <span>⚙️</span>
-
         <div>
           <h2>Administración</h2>
-          <p>
-            Control general del negocio.
-          </p>
+          <p>Precios, gastos, deudas y reportes del negocio.</p>
         </div>
       </div>
 
       <button
         className="btn-principal"
-        onClick={() =>
-          cambiarPantalla("reporte")
-        }
+        onClick={() => cambiarPantalla("reporte")}
       >
         📊 Ver reporte mensual
       </button>
 
       <div className="formulario">
-
-        <h3>💵 Precios</h3>
+        <h3>💵 Precios de los helados</h3>
+        <p>Modifica los precios normales y mayoristas cuando lo necesites.</p>
 
         {sabores.map((sabor) => (
-          <div
-            className="sabor-produccion"
-            key={sabor.id}
-          >
-            <span>
-              {sabor.nombre}
-            </span>
+          <div className="sabor-produccion" key={sabor.id}>
+            <div style={{ flex: 1 }}>
+              <strong>{sabor.nombre}</strong>
 
-            <button
-              className="btn-secundario"
-              onClick={() =>
-                cambiarPrecio(
-                  sabor.id,
-                  sabor.precio
-                )
-              }
-            >
-              $
-              {Number(
-                sabor.precio
-              ).toLocaleString("es-CO")}
-            </button>
+              <p>
+                Normal: $
+                {Number(sabor.precio).toLocaleString("es-CO")}
+              </p>
+
+              <p>
+                Mayorista: $
+                {Number(
+                  sabor.precio_mayorista ?? sabor.precio
+                ).toLocaleString("es-CO")}
+              </p>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <button
+                className="btn-secundario"
+                disabled={guardandoPrecio !== null}
+                onClick={() => cambiarPrecio(sabor, "precio")}
+              >
+                {guardandoPrecio === `${sabor.id}-precio`
+                  ? "Guardando..."
+                  : "Editar normal"}
+              </button>
+
+              <button
+                className="btn-secundario"
+                disabled={guardandoPrecio !== null}
+                onClick={() => cambiarPrecio(sabor, "precio_mayorista")}
+              >
+                {guardandoPrecio === `${sabor.id}-precio_mayorista`
+                  ? "Guardando..."
+                  : "Editar mayorista"}
+              </button>
+            </div>
           </div>
         ))}
-
       </div>
 
       <div className="formulario">
-
         <h3>💸 Registrar gasto</h3>
 
         <label>Concepto</label>
-
         <input
           type="text"
           placeholder="Ejemplo: Leche"
           value={concepto}
-          onChange={(e) =>
-            setConcepto(e.target.value)
-          }
+          onChange={(e) => setConcepto(e.target.value)}
         />
 
         <label>Valor</label>
-
         <input
           type="number"
-          min="0"
+          min="1"
           placeholder="$0"
           value={valorGasto}
-          onChange={(e) =>
-            setValorGasto(e.target.value)
-          }
+          onChange={(e) => setValorGasto(e.target.value)}
         />
 
-        <button
-          className="btn-principal"
-          onClick={guardarGasto}
-        >
+        <button className="btn-principal" onClick={guardarGasto}>
           Guardar gasto
         </button>
-
       </div>
 
       <div className="formulario">
-
         <h3>📋 Últimos gastos</h3>
 
         {gastos.length === 0 ? (
-          <p>
-            No hay gastos registrados.
-          </p>
+          <p>No hay gastos registrados.</p>
         ) : (
           gastos.map((gasto) => (
-            <div
-              className="helado"
-              key={gasto.id}
-            >
-              <span>
-                {gasto.concepto}
-              </span>
-
+            <div className="helado" key={gasto.id}>
+              <span>{gasto.concepto}</span>
               <strong>
-                $
-                {Number(
-                  gasto.valor
-                ).toLocaleString("es-CO")}
+                ${Number(gasto.valor).toLocaleString("es-CO")}
               </strong>
             </div>
           ))
         )}
-
       </div>
 
       <div className="formulario">
-
-        <h3>
-          👤 Registrar persona que debe
-        </h3>
+        <h3>👤 Registrar persona que debe</h3>
 
         <label>Nombre</label>
-
         <input
           type="text"
           placeholder="Nombre"
           value={nombreDeuda}
-          onChange={(e) =>
-            setNombreDeuda(e.target.value)
-          }
+          onChange={(e) => setNombreDeuda(e.target.value)}
         />
 
         <label>Teléfono</label>
-
         <input
           type="text"
           placeholder="Opcional"
           value={telefonoDeuda}
-          onChange={(e) =>
-            setTelefonoDeuda(e.target.value)
-          }
+          onChange={(e) => setTelefonoDeuda(e.target.value)}
         />
 
-        <label>
-          Valor de la deuda
-        </label>
-
+        <label>Valor de la deuda</label>
         <input
           type="number"
-          min="0"
+          min="1"
           placeholder="$0"
           value={valorDeuda}
-          onChange={(e) =>
-            setValorDeuda(e.target.value)
-          }
+          onChange={(e) => setValorDeuda(e.target.value)}
         />
 
-        <button
-          className="btn-principal"
-          onClick={guardarDeuda}
-        >
+        <button className="btn-principal" onClick={guardarDeuda}>
           Registrar deuda
         </button>
-
       </div>
 
       <div className="formulario">
-
-        <h3>
-          📋 Personas que deben
-        </h3>
+        <h3>📋 Personas que deben</h3>
 
         {deudas.length === 0 ? (
-          <p>
-            No hay deudas registradas.
-          </p>
+          <p>No hay deudas registradas.</p>
         ) : (
           deudas.map((deuda) => {
-            const pendiente =
-              deuda.valor -
-              deuda.abonado;
+            const pendiente = Number(deuda.valor) - Number(deuda.abonado);
 
             return (
-              <div
-                className="deuda-card"
-                key={deuda.id}
-              >
-                <strong>
-                  {deuda.nombre_persona}
-                </strong>
+              <div className="deuda-card" key={deuda.id}>
+                <strong>{deuda.nombre_persona}</strong>
 
                 {deuda.telefono && (
-                  <small>
-                    📱 {deuda.telefono}
-                  </small>
+                  <small>📱 {deuda.telefono}</small>
                 )}
 
                 <span>
-                  Deuda: $
-                  {Number(
-                    deuda.valor
-                  ).toLocaleString("es-CO")}
+                  Deuda: ${Number(deuda.valor).toLocaleString("es-CO")}
                 </span>
 
                 <span>
-                  Abonado: $
-                  {Number(
-                    deuda.abonado
-                  ).toLocaleString("es-CO")}
+                  Abonado: ${Number(deuda.abonado).toLocaleString("es-CO")}
                 </span>
 
                 <strong>
-                  Pendiente: $
-                  {Number(
-                    pendiente
-                  ).toLocaleString("es-CO")}
+                  Pendiente: ${pendiente.toLocaleString("es-CO")}
                 </strong>
 
                 {pendiente > 0 ? (
                   <button
                     className="btn-secundario"
-                    onClick={() =>
-                      registrarAbono(deuda)
-                    }
+                    onClick={() => registrarAbono(deuda)}
                   >
                     Registrar abono
                   </button>
                 ) : (
-                  <span>
-                    ✅ Pagada
-                  </span>
+                  <span>✅ Pagada</span>
                 )}
               </div>
             );
           })
         )}
-
       </div>
-
     </div>
   );
 }

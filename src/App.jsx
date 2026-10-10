@@ -21,12 +21,14 @@ function App() {
   async function cargarDatos() {
     setCargando(true);
 
-    const { data: saboresData, error: saboresError } =
-      await supabase
-        .from("sabores")
-        .select("id, nombre, precio")
-        .eq("activo", true)
-        .order("id");
+    const {
+      data: saboresData,
+      error: saboresError
+    } = await supabase
+      .from("sabores")
+      .select("id, nombre, precio, precio_mayorista")
+      .eq("activo", true)
+      .order("id");
 
     if (saboresError) {
       console.error(saboresError);
@@ -35,10 +37,12 @@ function App() {
       return;
     }
 
-    const { data: inventarioData, error: inventarioError } =
-      await supabase
-        .from("inventario")
-        .select("sabor_id, cantidad");
+    const {
+      data: inventarioData,
+      error: inventarioError
+    } = await supabase
+      .from("inventario")
+      .select("sabor_id, cantidad");
 
     if (inventarioError) {
       console.error(inventarioError);
@@ -79,11 +83,21 @@ function App() {
           (item) => item.nombre === nombre
         );
 
+        if (!sabor) {
+          return null;
+        }
+
         return {
           sabor_id: sabor.id,
           cantidad: Number(cantidad)
         };
-      });
+      })
+      .filter(Boolean);
+
+    if (items.length === 0) {
+      alert("Selecciona al menos un sabor.");
+      return false;
+    }
 
     const { error } = await supabase.rpc(
       "registrar_produccion",
@@ -109,7 +123,7 @@ function App() {
     return true;
   }
 
-  async function registrarVenta(venta) {
+  async function registrarVenta(venta, modalidad = "normal") {
     const items = Object.entries(venta)
       .filter(([, cantidad]) => Number(cantidad) > 0)
       .map(([nombre, cantidad]) => {
@@ -117,16 +131,27 @@ function App() {
           (item) => item.nombre === nombre
         );
 
+        if (!sabor) {
+          return null;
+        }
+
         return {
           sabor_id: sabor.id,
           cantidad: Number(cantidad)
         };
-      });
+      })
+      .filter(Boolean);
+
+    if (items.length === 0) {
+      alert("Selecciona al menos un helado.");
+      return false;
+    }
 
     const { error } = await supabase.rpc(
       "registrar_venta",
       {
-        p_items: items
+        p_items: items,
+        p_modalidad: modalidad
       }
     );
 
@@ -154,9 +179,7 @@ function App() {
 
           <div>
             <h2>Cargando...</h2>
-            <p>
-              Conectando con Mundo Cremoso.
-            </p>
+            <p>Conectando con Mundo Cremoso.</p>
           </div>
         </div>
       </div>
