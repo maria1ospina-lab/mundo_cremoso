@@ -93,6 +93,6 @@ $$;
 REVOKE ALL ON FUNCTION public.obtener_reporte_mensual(integer, integer)
   FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.obtener_reporte_mensual(integer, integer)
-  TO anon, authenticated;
+  TO anon;
 
 NOTIFY pgrst, 'reload schema';

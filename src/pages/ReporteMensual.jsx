@@ -30,11 +30,14 @@ function ReporteMensual({ cambiarPantalla }) {
     "Diciembre"
   ];
 
-  async function cargarReporte() {
-    setCargando(true);
+  useEffect(() => {
+    let solicitudActual = true;
 
-    const { data, error } =
-      await supabase.rpc(
+    async function cargarReporte() {
+      setCargando(true);
+      setReporte(null);
+
+      const { data, error } = await supabase.rpc(
         "obtener_reporte_mensual",
         {
           p_anio: Number(anio),
@@ -42,25 +45,28 @@ function ReporteMensual({ cambiarPantalla }) {
         }
       );
 
-    if (error) {
-      console.error(error);
+      if (!solicitudActual) return;
 
-      alert(
-        error.message ||
-          "No se pudo cargar el reporte."
-      );
+      if (error) {
+        console.error(error);
+        alert(
+          error.message ||
+            "No se pudo cargar el reporte."
+        );
+        setReporte(null);
+      } else {
+        setReporte(data);
+      }
 
       setCargando(false);
-      return;
     }
 
-    setReporte(data);
-    setCargando(false);
-  }
-
-  useEffect(() => {
     cargarReporte();
-  }, []);
+
+    return () => {
+      solicitudActual = false;
+    };
+  }, [anio, mes]);
 
   function imprimir() {
     window.print();
@@ -119,12 +125,11 @@ function ReporteMensual({ cambiarPantalla }) {
           ))}
         </select>
 
-        <button
-          className="btn-principal"
-          onClick={cargarReporte}
-        >
-          Generar reporte
-        </button>
+        <p role="status">
+          {cargando
+            ? "Cargando el reporte del periodo seleccionado..."
+            : "El reporte se actualiza al cambiar el año o el mes."}
+        </p>
 
         <button
           className="btn-secundario"
